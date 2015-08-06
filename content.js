@@ -1,38 +1,85 @@
-console.log('"RT Correspondence Quick Jump" extension loaded.');
+console.log('"RT Message Quick Jump" extension loaded.');
 
-var scrollToPreviousMessageKeyCombo = 'ctrl+shift+up';
-var scrollToNextMessageKeyCombo = 'ctrl+shift+down';
-var messageSelector = 'div.ticket-transaction.message';
-var scrollDelay = 0;
+var options = {
+  gotoPreviousMessageKeyboardShortcut: 'ctrl+shift+up',
+  gotoNextMessageKeyboardShortcut: 'ctrl+shift+down',
+  includeHeaders: true,
+  scrollDelay: 0,
+};
 
-var currentMessage = -1;
+var messageSelector = options['includeHeaders']
+  ? 'div.ticket-transaction.message'
+  : '.message-stanza:not(.open):not(.closed)';
 
-function scrollTo(element) {
-  $('html, body').animate({ scrollTop: $(element).offset().top }, scrollDelay);
+var messages = $(messageSelector).get();
+
+if (messages.length > 0)
+  bindKeyboardShortcuts();
+
+////////////////////////////////////////////////////////////////////////////////
+
+function bindKeyboardShortcuts() {
+  Mousetrap.bind(options['gotoPreviousMessageKeyboardShortcut'], gotoPreviousMessage);
+  Mousetrap.bind(options['gotoNextMessageKeyboardShortcut'], gotoNextMessage);
 }
 
-function messageCount() {
-  return $(messageSelector).length;
+function gotoPreviousMessage() {
+  var p = previousMessage();
+  if (p)
+    scrollToDelayed(p);
 }
 
-function scrollToMessage(index) {
-  scrollTo(messageSelector + ':eq(' + index + ')');
+function gotoNextMessage() {
+  var n = nextMessage();
+  if (n)
+    scrollToDelayed(n);
 }
 
-function scrollToPreviousMessage() {
-  if (currentMessage < messageCount())
-    scrollToMessage(++currentMessage);
+function previousMessage() {
+  var m = previousMessages();
+  return m[m.length - 1];
 }
 
-function scrollToNextMessage() {
-  if (currentMessage > 0)
-    scrollToMessage(--currentMessage);
+function nextMessage() {
+  return nextMessages()[0];
 }
 
-Mousetrap.bind(scrollToPreviousMessageKeyCombo, function(e, combo) {
-    scrollToNextMessage();
-});
+function previousMessages() {
+    return messages.filter(function(m){ return isPreviousMessage(m); });
+}
 
-Mousetrap.bind(scrollToNextMessageKeyCombo, function(e, combo) {
-    scrollToPreviousMessage();
-});
+function nextMessages() {
+  return messages.filter(function(m){ return isNextMessage(m); });
+}
+
+function isPreviousMessage(m) {
+  return elementTop(m) < viewportTop();
+}
+
+function isNextMessage(m) {
+  return elementTop(m) - 1 > viewportTop();
+}
+
+function scrollToDelayed(e) {
+  return scrollTo(e, options['scrollDelay']);
+}
+
+function viewportTop() {
+  return $(window).scrollTop();
+};
+
+function viewportBottom() {
+  return viewportTop() + $(window).height();
+};
+
+function elementTop(e) {
+  return $(e).offset().top;
+};
+
+function elementBottom(e) {
+  return elementTop(e) + $(e).height();
+};
+
+function scrollTo(e, delay) {
+  $('html, body').animate({ scrollTop: $(e).offset().top }, delay);
+}
