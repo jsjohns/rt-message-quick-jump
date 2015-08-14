@@ -1,7 +1,9 @@
 set -euo pipefail
 
 sudo apt-get update
+echo $?
 sudo apt-get install -y sqlite3 rt4-clients build-essential libexpat1-dev libexpat1
+echo $?
 (echo y; echo o conf prerequisites_policy follow; echo o conf commit) | cpan
 wget https://download.bestpractical.com/pub/rt/release/rt-4.2.11.tar.gz
 tar xvf *.tar.gz
