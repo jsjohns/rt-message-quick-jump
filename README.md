@@ -11,3 +11,4 @@ It has been tested on Chrome 44.0.2403.125 and RT 4.0.6.
 
 The extension is available in the [chrome web store](https://chrome.google.com/webstore/detail/rt-messsage-quick-jump/jpojcckcbjfifhdpbhkalhdkflgkbjfp).
 
+Why not make development completely self-contained via Vagrant VM?

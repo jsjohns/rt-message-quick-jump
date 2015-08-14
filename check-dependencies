@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# vagrant
+
+# these dependencies should be in the box
+# google-chrome-stable
+# python
+# python-selenium
+# virtualbox
+# rt-4.2.11
