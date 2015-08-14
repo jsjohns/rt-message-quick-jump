@@ -1,6 +1,8 @@
 set -euo pipefail
 
 id
+curl -L http://cpanmin.us | perl - --sudo App::cpanminus
+export RT_FIX_DEPS_CMD="cpanm"
 
 sudo apt-get update
 echo $?
