@@ -6,14 +6,14 @@ sudo apt-get update
 echo $?
 sudo apt-get install -y sqlite3 rt4-clients build-essential libexpat1-dev libexpat1
 echo $?
-(echo y; echo o conf prerequisites_policy follow; echo o conf commit) | cpan
+#(echo y; echo o conf prerequisites_policy follow; echo o conf commit) | cpan
 wget https://download.bestpractical.com/pub/rt/release/rt-4.2.11.tar.gz
 tar xvf *.tar.gz
 cd rt-*
 ./configure --with-db-type=SQLite
 
 curl -L http://cpanmin.us | perl - --sudo App::cpanminus
-printf "\n" | sudo RT_FIX_DEPS_CMD="cpanm" make fixdeps
+printf "\n" | sudo RT_FIX_DEPS_CMD="cpanm --notest %s" make fixdeps
 
 
 sudo make install
