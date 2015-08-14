@@ -1,6 +1,5 @@
 sudo apt-get update
 sudo apt-get install -y sqlite3 rt4-clients build-essential libexpat1-dev libexpat1
-exit
 (echo y; echo o conf prerequisites_policy follow; echo o conf commit) | cpan
 wget https://download.bestpractical.com/pub/rt/release/rt-4.2.11.tar.gz
 tar xvf *.tar.gz
@@ -8,6 +7,7 @@ cd rt-*
 ./configure --with-db-type=SQLite
 printf "\n" | sudo make fixdeps
 sudo make install
+exit
 sudo tee /opt/rt4/etc/RT_SiteConfig.pm > /dev/null <<'EOF'
 Set( $MailCommand, 'testfile');
 1;
