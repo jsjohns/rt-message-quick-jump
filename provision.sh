@@ -1,8 +1,6 @@
 set -euo pipefail
 
 id
-curl -L http://cpanmin.us | perl - --sudo App::cpanminus
-export RT_FIX_DEPS_CMD="cpanm"
 
 sudo apt-get update
 echo $?
@@ -13,7 +11,11 @@ wget https://download.bestpractical.com/pub/rt/release/rt-4.2.11.tar.gz
 tar xvf *.tar.gz
 cd rt-*
 ./configure --with-db-type=SQLite
-printf "\n" | sudo make fixdeps
+
+curl -L http://cpanmin.us | perl - --sudo App::cpanminus
+printf "\n" | sudo RT_FIX_DEPS_CMD="cpanm" make fixdeps
+
+
 sudo make install
 exit
 sudo tee /opt/rt4/etc/RT_SiteConfig.pm > /dev/null <<'EOF'
