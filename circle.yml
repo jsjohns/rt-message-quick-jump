@@ -1,0 +1,4 @@
+checkout:
+    post:
+        - ls
+        - sudo whoami
