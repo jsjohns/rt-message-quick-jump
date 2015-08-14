@@ -1,5 +1,7 @@
 set -euo pipefail
 
+id
+
 sudo apt-get update
 echo $?
 sudo apt-get install -y sqlite3 rt4-clients build-essential libexpat1-dev libexpat1
