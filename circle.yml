@@ -3,3 +3,4 @@ checkout:
         - pwd
         - ls
         - sudo whoami
+        - provision.sh
