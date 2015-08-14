@@ -12,8 +12,9 @@ tar xvf *.tar.gz
 cd rt-*
 ./configure --with-db-type=SQLite
 
+# do need to make --notest configurable
 curl -L http://cpanmin.us | perl - --sudo App::cpanminus
-printf "\n" | sudo RT_FIX_DEPS_CMD="cpanm --notest %s" make fixdeps
+printf "\n" | sudo TAR_OPTIONS="--no-same-owner" RT_FIX_DEPS_CMD="cpanm --notest %s" make fixdeps
 
 
 sudo make install
