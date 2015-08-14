@@ -1,4 +1,5 @@
 checkout:
     post:
+        - pwd
         - ls
         - sudo whoami
