@@ -1,3 +1,5 @@
+set -euo pipefail
+
 sudo apt-get update
 sudo apt-get install -y sqlite3 rt4-clients build-essential libexpat1-dev libexpat1
 (echo y; echo o conf prerequisites_policy follow; echo o conf commit) | cpan
